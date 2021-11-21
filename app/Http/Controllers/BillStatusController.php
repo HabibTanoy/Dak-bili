@@ -28,6 +28,8 @@ class BillStatusController extends Controller
             'bill_images' => $image_file_path,
             'agent_id' => $request->agent_id,
             'agent_name' => $request->agent_name,
+            'latitude' => $request->lat,
+            'longitude' => $request->lon,
             'status' => 'Assigned'
         ]);
         return response()->json([
