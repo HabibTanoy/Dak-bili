@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Validator;
 
 class BillStatusController extends Controller
 {
+    // list of bill API
+    public function allBillListed()
+    {
+        $all_bill_list = BillInfo::get();
+        return response()->json([
+            'data' => $all_bill_list,
+            'status' => 200
+         ]);
+    }
+    // created bill info API
     public function billCreated(Request $request)
     {
         $this->validate($request, [
@@ -33,9 +43,13 @@ class BillStatusController extends Controller
             'status' => 'Assigned'
         ]);
         return response()->json([
-            "data" => $bill_created,
             'message' => 'Assigned',
             'status' => 200
         ]);
     }
+
+    // public function billDelivered(Request $request)
+    // {
+        
+    // }
 }

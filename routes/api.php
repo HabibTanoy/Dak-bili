@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/bill-added', 'App\Http\Controllers\BillStatusController@billCreated');
+Route::get('/bill-list', 'App\Http\Controllers\BillStatusController@allBillListed');
