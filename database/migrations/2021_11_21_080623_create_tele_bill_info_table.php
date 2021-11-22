@@ -23,6 +23,7 @@ class CreateTeleBillInfoTable extends Migration
             $table->string('agent_name')->nullable();
             $table->float('latitude')->nullable();
             $table->float('longitude')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }
