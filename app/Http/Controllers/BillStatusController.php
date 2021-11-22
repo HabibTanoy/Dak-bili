@@ -31,7 +31,16 @@ class BillStatusController extends Controller
         $file_handler = new Images();
         $file_name = $request->telephone_number.'_'.rand(10000,99999);
         $image_file_path = $file_handler->uploadFile($request->file('bill_images'),$file_name);
-
+        // $images = $request->file('bill_images');
+        // $image_name = '';
+        // foreach($images as $image)
+        // {
+        //     $new_image = rand().'_'.$image->getClientOriginalExtension();
+        //     $image->move(public_path('/uploads/images'), $new_image);
+        //     $image_name = $image_name.$new_image.",";
+        // }
+        // $image_db = $image_name;
+        // return response()->json($image_db);
 
         $bill_created = BillInfo::create([
             'phone_number' => $request->telephone_number,
@@ -43,6 +52,7 @@ class BillStatusController extends Controller
             'status' => 'assigned'
         ]);
         return response()->json([
+            'id' => $bill_created->id,
             'message' => 'Assigned',
             'status' => 200
         ]);
