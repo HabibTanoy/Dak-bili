@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Validator;
 class BillStatusController extends Controller
 {
     // list of bill API
-    public function allBillListed()
+    public function allBillListed(Request $request)
     {
-        $all_bill_list = BillInfo::get();
+        $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
+            ->get();
         return response()->json([
             'data' => $all_bill_list,
             'status' => 200
@@ -23,14 +24,16 @@ class BillStatusController extends Controller
     public function billCreated(Request $request)
     {
         $this->validate($request, [
-            'telephone_number' => 'required',
+            'bill_number' => 'required',
+            'bill_types' => 'required',
             'bill_images' => 'required',
             'agent_id' => 'required',
             'agent_name' => 'required'
         ]);
         $file_handler = new Images();
-        $file_name = $request->telephone_number.'_'.rand(10000,99999);
+        $file_name = $request->bill_number.'_'.rand(10000,99999);
         $image_file_path = $file_handler->uploadFile($request->file('bill_images'),$file_name);
+        // $image_db = [];
         // $images = $request->file('bill_images');
         // $image_name = '';
         // foreach($images as $image)
@@ -40,10 +43,12 @@ class BillStatusController extends Controller
         //     $image_name = $image_name.$new_image.",";
         // }
         // $image_db = $image_name;
+        // dd($image_db);
         // return response()->json($image_db);
 
         $bill_created = BillInfo::create([
-            'phone_number' => $request->telephone_number,
+            'bill_number' => $request->bill_number,
+            'bill_types' => $request->bill_types,
             'bill_images' => $image_file_path,
             'agent_id' => $request->agent_id,
             'agent_name' => $request->agent_name,
@@ -80,9 +85,9 @@ class BillStatusController extends Controller
         }
 
         $file_handler = new Images();
-        $file_name = $request->telephone_number.'_'.rand(10000,99999);
+        $file_name = $request->bill_number.'_'.rand(10000,99999);
         $image_file_path = $file_handler->uploadFile($request->file('signature_images'),$file_name);
-        
+
         $bills->update([
             'agent_id' => $request->agent_id,
             'signature_images' => $image_file_path,

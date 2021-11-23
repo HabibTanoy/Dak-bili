@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/', 'App\Http\Controllers\BillController@viewBillList');
+Route::get('/bill-details/{id}', 'App\Http\Controllers\BillController@perBillDetails')->name('bill-details');
