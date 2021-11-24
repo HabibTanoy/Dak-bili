@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ImageUploads\Images;
 use App\Models\BillInfo;
+use App\Models\BillTypes;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,10 +14,27 @@ class BillStatusController extends Controller
     // list of bill API
     public function allBillListed(Request $request)
     {
-        $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
+        $all_bill_list = BillInfo::where('bill_types', $request->bill_types)
+            ->where('agent_id', $request->agent_id)
             ->get();
+//        dd($all_bill_list->bill_types);
+        foreach ($all_bill_list as $type) {
+//            dd($type->bill_types);
+            if ($type->bill_types == 1) {
+                $types_name = "Registry";
+            } elseif ($type->bill_types == 2) {
+                $types_name = "GEP";
+            } elseif ($type->bill_types == 3) {
+                $types_name = "Parcel";
+            } elseif ($type->bill_typese == 4) {
+                $types_name = "Telephone Bill";
+            } elseif ($type->bill_types == 5) {
+                $types_name = "Wasa Bill";
+            }
+        }
         return response()->json([
             'data' => $all_bill_list,
+            'bill types' => $types_name,
             'status' => 200
          ]);
     }
@@ -56,6 +74,10 @@ class BillStatusController extends Controller
             'longitude' => $request->lon,
             'status' => 'assigned'
         ]);
+//        $bill_types = BillTypes::create([
+//           'bill_id' => $bill_created->id,
+//            'bill_types' => $request->bill_types
+//        ]);
         return response()->json([
             'id' => $bill_created->id,
             'message' => 'Assigned',
