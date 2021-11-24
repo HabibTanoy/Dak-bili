@@ -14,27 +14,31 @@ class BillStatusController extends Controller
     // list of bill API
     public function allBillListed(Request $request)
     {
-        $all_bill_list = BillInfo::where('bill_types', $request->bill_types)
-            ->where('agent_id', $request->agent_id)
+        $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
             ->get();
-//        dd($all_bill_list->bill_types);
+
         foreach ($all_bill_list as $type) {
 //            dd($type->bill_types);
             if ($type->bill_types == 1) {
                 $types_name = "Registry";
+                $bill_types_name = $types_name;
             } elseif ($type->bill_types == 2) {
                 $types_name = "GEP";
+                $bill_types_name = $types_name;
             } elseif ($type->bill_types == 3) {
                 $types_name = "Parcel";
-            } elseif ($type->bill_typese == 4) {
+                $bill_types_name = $types_name;
+            } elseif ($type->bill_types == 4) {
                 $types_name = "Telephone Bill";
+                $bill_types_name = $types_name;
             } elseif ($type->bill_types == 5) {
                 $types_name = "Wasa Bill";
+                $bill_types_name = $types_name;
             }
         }
         return response()->json([
             'data' => $all_bill_list,
-            'bill types' => $types_name,
+            'bill types' => $bill_types_name,
             'status' => 200
          ]);
     }
@@ -46,7 +50,7 @@ class BillStatusController extends Controller
             'bill_types' => 'required',
             'bill_images' => 'required',
             'agent_id' => 'required',
-            'agent_name' => 'required'
+            'agent_name' => 'required',
         ]);
         $file_handler = new Images();
         $file_name = $request->bill_number.'_'.rand(10000,99999);
@@ -72,12 +76,10 @@ class BillStatusController extends Controller
             'agent_name' => $request->agent_name,
             'latitude' => $request->lat,
             'longitude' => $request->lon,
+            'issue_office' => $request->issue_office,
             'status' => 'assigned'
         ]);
-//        $bill_types = BillTypes::create([
-//           'bill_id' => $bill_created->id,
-//            'bill_types' => $request->bill_types
-//        ]);
+
         return response()->json([
             'id' => $bill_created->id,
             'message' => 'Assigned',
