@@ -16,29 +16,8 @@ class BillStatusController extends Controller
     {
         $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
             ->get();
-
-        foreach ($all_bill_list as $type) {
-//            dd($type->bill_types);
-            if ($type->bill_types == 1) {
-                $types_name = "Registry";
-                $bill_types_name = $types_name;
-            } elseif ($type->bill_types == 2) {
-                $types_name = "GEP";
-                $bill_types_name = $types_name;
-            } elseif ($type->bill_types == 3) {
-                $types_name = "Parcel";
-                $bill_types_name = $types_name;
-            } elseif ($type->bill_types == 4) {
-                $types_name = "Telephone Bill";
-                $bill_types_name = $types_name;
-            } elseif ($type->bill_types == 5) {
-                $types_name = "Wasa Bill";
-                $bill_types_name = $types_name;
-            }
-        }
         return response()->json([
             'data' => $all_bill_list,
-            'bill types' => $bill_types_name,
             'status' => 200
          ]);
     }
@@ -55,6 +34,7 @@ class BillStatusController extends Controller
         $file_handler = new Images();
         $file_name = $request->bill_number.'_'.rand(10000,99999);
         $image_file_path = $file_handler->uploadFile($request->file('bill_images'),$file_name);
+
         // $image_db = [];
         // $images = $request->file('bill_images');
         // $image_name = '';
@@ -68,9 +48,26 @@ class BillStatusController extends Controller
         // dd($image_db);
         // return response()->json($image_db);
 
+        $bill_types = $request->bill_types;
+        if ($bill_types == 1) {
+            $types_name = "Registry";
+            $bill_types_name = $types_name;
+        } elseif ($bill_types == 2) {
+            $types_name = "GEP";
+            $bill_types_name = $types_name;
+        } elseif ($bill_types == 3) {
+            $types_name = "Parcel";
+            $bill_types_name = $types_name;
+        } elseif ($bill_types == 4) {
+            $types_name = "Telephone Bill";
+            $bill_types_name = $types_name;
+        } elseif ($bill_types == 5) {
+            $types_name = "Wasa Bill";
+            $bill_types_name = $types_name;
+        }
         $bill_created = BillInfo::create([
             'bill_number' => $request->bill_number,
-            'bill_types' => $request->bill_types,
+            'bill_types' => $bill_types_name,
             'bill_images' => $image_file_path,
             'agent_id' => $request->agent_id,
             'agent_name' => $request->agent_name,
