@@ -11,7 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class BillStatusController extends Controller
 {
-    // list of bill API
+    // all  list of bill
+    public function billList()
+    {
+        $bill_list = BillInfo::get();
+        dd($bill_list);
+    }
+    // list of bill API search by agent id
     public function allBillListed(Request $request)
     {
         $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
