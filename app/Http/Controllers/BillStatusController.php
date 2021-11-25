@@ -15,7 +15,10 @@ class BillStatusController extends Controller
     public function billList()
     {
         $bill_list = BillInfo::get();
-        dd($bill_list);
+        return response()->json([
+            'data' => $bill_list,
+            'status' => 200
+        ]);
     }
     // list of bill API search by agent id
     public function allBillListed(Request $request)
