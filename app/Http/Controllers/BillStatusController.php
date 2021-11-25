@@ -16,7 +16,12 @@ class BillStatusController extends Controller
     {
         $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
             ->get();
+        foreach ($all_bill_list as $issue)
+        {
+            $demo = urldecode( $issue->issue_office );
+        }
         return response()->json([
+            'bangla-test' => $demo,
             'data' => $all_bill_list,
             'status' => 200
          ]);
