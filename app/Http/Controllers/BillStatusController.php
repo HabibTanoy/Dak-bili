@@ -16,12 +16,12 @@ class BillStatusController extends Controller
     {
         $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
             ->get();
-        foreach ($all_bill_list as $issue)
-        {
-            $demo = urldecode( $issue->issue_office );
-        }
+//        foreach ($all_bill_list as $issue)
+//        {
+//            $demo = urldecode( $issue->issue_office );
+//        }
         return response()->json([
-            'bangla-test' => $demo,
+//            'bangla-test' => $demo,
             'data' => $all_bill_list,
             'status' => 200
          ]);
@@ -70,6 +70,7 @@ class BillStatusController extends Controller
             $types_name = "Wasa Bill";
             $bill_types_name = $types_name;
         }
+//        $issue_office_decode = $request->issue_office;
         $bill_created = BillInfo::create([
             'bill_number' => $request->bill_number,
             'bill_types' => $bill_types_name,
@@ -78,7 +79,7 @@ class BillStatusController extends Controller
             'agent_name' => $request->agent_name,
             'latitude' => $request->lat,
             'longitude' => $request->lon,
-            'issue_office' => $request->issue_office,
+            'issue_office' => urldecode($request->issue_office),
             'status' => 'assigned'
         ]);
 
