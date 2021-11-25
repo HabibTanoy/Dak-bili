@@ -28,6 +28,7 @@ class CreateTeleBillInfoTable extends Migration
             $table->string('issue_office')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**
