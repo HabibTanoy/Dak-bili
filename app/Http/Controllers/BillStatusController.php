@@ -168,7 +168,7 @@ class BillStatusController extends Controller
     }
     public function autocompleteSearch(Request $request)
     {
-        $serach_result = $request->get('serach_results');
+        $serach_result = $request->search_results;
         $filterResult = BillInfo::where('issue_office', 'LIKE', '%'. $serach_result . '%')->get();
         return response()->json([
             'data' => $filterResult,
