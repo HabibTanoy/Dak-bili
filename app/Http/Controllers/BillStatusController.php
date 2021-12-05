@@ -166,4 +166,13 @@ class BillStatusController extends Controller
 //            'status' => 200
         ]);
     }
+    public function autocompleteSearch(Request $request)
+    {
+        $serach_result = $request->get('serach_results');
+        $filterResult = BillInfo::where('issue_office', 'LIKE', '%'. $serach_result . '%')->get();
+        return response()->json([
+            'data' => $filterResult,
+            'status' => 200
+        ]);
+    }
 }
