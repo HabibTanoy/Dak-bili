@@ -177,6 +177,7 @@ class BillStatusController extends Controller
             'status' => 200
         ]);
     }
+    // Bill Status Update
     public function billStatusUpdate(Request $request)
     {
         $validator = Validator::make($request->all(),
