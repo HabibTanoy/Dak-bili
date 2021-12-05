@@ -166,13 +166,37 @@ class BillStatusController extends Controller
 //            'status' => 200
         ]);
     }
+    // For Autocomplete Search
     public function autocompleteSearch(Request $request)
     {
         $serach_result = $request->search_results;
         $filterResult = BillInfo::where('issue_office', 'LIKE', '%'. $serach_result . '%')->get();
+
         return response()->json([
             'data' => $filterResult,
             'status' => 200
+        ]);
+    }
+    public function billStatusUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'bill_id' => 'required'
+            ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Parameter not found'
+            ]);
+        }
+        $bill_id = $request->bill_id;
+        $bills = BillInfo::find($bill_id);
+       $bills->update([
+           'signature_images' => '',
+           'comment' => '',
+           'status' => $request->bill_status
+       ]);
+        return response()->json([
+            'data' => $bills,
         ]);
     }
 }
