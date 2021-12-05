@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ImageUploads\Images;
 use App\Models\BillInfo;
 use App\Models\BillTypes;
+use App\Models\IssueList;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -170,7 +171,15 @@ class BillStatusController extends Controller
     public function autocompleteSearch(Request $request)
     {
         $serach_result = $request->search_results;
-        $filterResult = BillInfo::where('issue_office', 'LIKE', '%'. $serach_result . '%')->get();
+        $filterResult = IssueList::where('issue_office', 'LIKE', '%'. $serach_result . '%')->get();
+        if (sizeof($filterResult) == 0)
+        {
+            $filterResult = IssueList::create([
+                'issue_office' => $serach_result
+            ]);
+        } else {
+            return $filterResult;
+        }
 
         return response()->json([
             'data' => $filterResult,
