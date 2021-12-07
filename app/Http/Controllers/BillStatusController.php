@@ -77,6 +77,7 @@ class BillStatusController extends Controller
             $bill_types_name = $types_name;
         }
 
+
         $bill_created = BillInfo::create([
             'bill_number' => $request->bill_number,
             'bill_types' => $bill_types_name,
@@ -89,13 +90,23 @@ class BillStatusController extends Controller
             'status' => 'assigned'
         ]);
 
+        // for autocomplete search data store
+        $find_search_list = IssueList::where('issue_office', $request->issue_office)
+            ->get();
+        if(sizeof($find_search_list) == 0)
+        {
+            $find_search_list = IssueList::create([
+                'issue_office' => urldecode($request->issue_office)
+            ]);
+        }
+
         return response()->json([
             'id' => $bill_created->id,
             'message' => 'Assigned',
             'status' => 200
         ]);
     }
-
+    // Delivered API
     public function billDelivered(Request $request)
     {
         $validator = Validator::make($request->all(),
@@ -134,7 +145,7 @@ class BillStatusController extends Controller
            'status' => 200
         ]);
     }
-
+    // Cancel API
     public function billNotDelivered(Request $request)
     {
         $validator = Validator::make($request->all(),
@@ -172,14 +183,14 @@ class BillStatusController extends Controller
     {
         $serach_result = $request->search_results;
         $filterResult = IssueList::where('issue_office', 'LIKE', '%'. $serach_result . '%')->get();
-        if (sizeof($filterResult) == 0)
-        {
-            $filterResult = IssueList::create([
-                'issue_office' => $serach_result
-            ]);
-        } else {
-            return $filterResult;
-        }
+//        if (sizeof  ($filterResult) == 0)
+//        {
+//            $filterResult = IssueList::create([
+//                'issue_office' => $serach_result
+//            ]);
+//        } else {
+//            return $filterResult;
+//        }
 
         return response()->json([
             'data' => $filterResult,
