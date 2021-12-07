@@ -77,7 +77,7 @@ class BillStatusController extends Controller
             $bill_types_name = $types_name;
         }
 
-        $decode_for_bangla =  $request->issue_office;
+        $decode_for_bangla =  urldecode($request->issue_office);
         $bill_created = BillInfo::create([
             'bill_number' => $request->bill_number,
             'bill_types' => $bill_types_name,
