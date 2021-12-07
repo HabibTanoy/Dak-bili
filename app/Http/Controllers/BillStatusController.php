@@ -77,7 +77,7 @@ class BillStatusController extends Controller
             $bill_types_name = $types_name;
         }
 
-
+        $decode_for_bangla =  $request->issue_office;
         $bill_created = BillInfo::create([
             'bill_number' => $request->bill_number,
             'bill_types' => $bill_types_name,
@@ -86,17 +86,18 @@ class BillStatusController extends Controller
             'agent_name' => $request->agent_name,
             'latitude' => $request->lat,
             'longitude' => $request->lon,
-            'issue_office' => urldecode($request->issue_office),
+            'issue_office' => $decode_for_bangla,
             'status' => 'assigned'
         ]);
 
         // for autocomplete search data store
         $find_search_list = IssueList::where('issue_office', $request->issue_office)
             ->get();
+//        dd(sizeof($find_search_list));
         if(sizeof($find_search_list) == 0)
         {
             $find_search_list = IssueList::create([
-                'issue_office' => urldecode($request->issue_office)
+                'issue_office' => $decode_for_bangla
             ]);
         }
 
