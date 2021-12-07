@@ -91,12 +91,10 @@ class BillStatusController extends Controller
         ]);
 
         // for autocomplete search data store
-        $find_search_list = IssueList::where('issue_office', $request->issue_office)
-            ->get();
-//        dd(sizeof($find_search_list));
-        if(sizeof($find_search_list) == 0)
+        if(!IssueList::where('issue_office', $decode_for_bangla)
+            ->exists())
         {
-            $find_search_list = IssueList::create([
+           IssueList::create([
                 'issue_office' => $decode_for_bangla
             ]);
         }
