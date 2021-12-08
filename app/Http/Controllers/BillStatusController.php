@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\ImageUploads\Images;
 use App\Models\BillInfo;
-use App\Models\BillTypes;
 use App\Models\IssueList;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class BillStatusController extends Controller
 {
-    // all  list of bill
+    // list of bill
     public function billList()
     {
         $bill_list = BillInfo::get();
@@ -22,6 +21,7 @@ class BillStatusController extends Controller
         ]);
     }
     // list of bill API search by agent id
+    // params: agent_id
     public function allBillListed(Request $request)
     {
         $all_bill_list = BillInfo::where('agent_id', $request->agent_id)
@@ -91,7 +91,16 @@ class BillStatusController extends Controller
         ]);
 
         // for autocomplete search data store
-        if(!IssueList::where('issue_office', $decode_for_bangla)
+        // params: issue_office
+        if ($bill_types == 4 or $bill_types == 5 and $decode_for_bangla == null)
+        {
+            return response()->json([
+                'id' => $bill_created->id,
+                'message' => 'Assigned',
+                'status' => 200
+            ]);
+        }
+        elseif (!IssueList::where('issue_office', $decode_for_bangla)
             ->exists())
         {
            IssueList::create([
@@ -106,6 +115,7 @@ class BillStatusController extends Controller
         ]);
     }
     // Delivered API
+    // params: bill_id, signature_images, (lat, lon ->optional)
     public function billDelivered(Request $request)
     {
         $validator = Validator::make($request->all(),
@@ -145,6 +155,7 @@ class BillStatusController extends Controller
         ]);
     }
     // Cancel API
+    // params: bill_id, comment, (lat, lon ->optional)
     public function billNotDelivered(Request $request)
     {
         $validator = Validator::make($request->all(),
@@ -182,14 +193,6 @@ class BillStatusController extends Controller
     {
         $serach_result = $request->search_results;
         $filterResult = IssueList::where('issue_office', 'LIKE', '%'. $serach_result . '%')->get();
-//        if (sizeof  ($filterResult) == 0)
-//        {
-//            $filterResult = IssueList::create([
-//                'issue_office' => $serach_result
-//            ]);
-//        } else {
-//            return $filterResult;
-//        }
 
         return response()->json([
             'data' => $filterResult,
@@ -197,6 +200,7 @@ class BillStatusController extends Controller
         ]);
     }
     // Bill Status Update
+    // params: bill_id
     public function billStatusUpdate(Request $request)
     {
         $validator = Validator::make($request->all(),
