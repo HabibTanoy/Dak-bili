@@ -17,4 +17,5 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 Route::get('/', 'App\Http\Controllers\BillController@viewBillList');
-Route::get('/bill-details/{id}', 'App\Http\Controllers\BillController@perBillDetails')->name('bill-details');
+//Route::get('/bill-details/{id}', 'App\Http\Controllers\BillController@perBillDetails')->name('bill-details');
+Route::get('/gep-list', 'App\Http\Controllers\BillController@viewGep')->name('list-gep');

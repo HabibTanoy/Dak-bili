@@ -16,3 +16,8 @@ Route::post('/bill-delivered', 'App\Http\Controllers\BillStatusController@billDe
 Route::post('/bill-cancelled', 'App\Http\Controllers\BillStatusController@billNotDelivered');
 Route::post('/update-status', 'App\Http\Controllers\BillStatusController@billStatusUpdate');
 
+// Temp API
+Route::get('/bill-search', 'App\Http\Controllers\BillDetailsController@billDateFilter');
+Route::get('/bill-id', 'App\Http\Controllers\BillDetailsController@billSearchById');
+Route::get('/bill-types', 'App\Http\Controllers\BillDetailsController@searchByBillTypes');
+Route::get('/bill-types-count', 'App\Http\Controllers\BillDetailsController@billTypesCount');

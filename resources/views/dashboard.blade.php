@@ -47,7 +47,7 @@
 <h3 class="text-center my-4">Bills Category</h3>
 <div class="text-center" role="group" aria-label="Basic example">
     <a href="" type="button" class="btn btn-primary">Registry</a>
-    <a href="" type="button" class="btn btn-primary">GEP</a>
+    <a href="{{ route('list-gep') }}" type="button" class="btn btn-primary">GEP</a>
     <a href="" type="button" class="btn btn-primary">Parcel</a>
     <a href="" type="button" class="btn btn-primary">Telephone Bill</a>
     <a href="" type="button" class="btn btn-primary">Wasa Bill</a>

@@ -18,10 +18,10 @@ class BillController extends Controller
         return view('dashboard', compact('bill_lists', 'total_delivered', 'total_not_delivered'));
     }
 
-    public function perBillDetails($id)
+    public function viewGep()
     {
-        $bill_details = BillInfo::where('id', $id)
-            ->first();
-        return view('billDetails', compact('bill_details'));
+        $all_gep = BillInfo::where('bill_types', 'GEP')
+            ->get();
+        dd($all_gep);
     }
 }
