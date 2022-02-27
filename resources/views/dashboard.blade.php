@@ -1,5 +1,34 @@
 @extends('master')
 @section('content')
+<style>
+    .has-search {
+    position: relative;
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+a {
+    text-decoration: none;
+    color: white;
+}
+a:hover {
+    text-decoration: none;
+    color: white;
+}
+</style>
 <div class="container">
     <h3 class="text-center my-3">Total Count of Bills</h3>
     <div class="row">
