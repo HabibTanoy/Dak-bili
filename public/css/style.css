@@ -70,6 +70,10 @@
     padding-left: 2.375rem;
 }
 
+.has-search {
+    position: relative;
+}
+
 .has-search .form-control-feedback {
     position: absolute;
     z-index: 2;
