@@ -18,19 +18,28 @@ class BillDetailsController extends Controller
             $start_date = $current_date;
         if (is_null($end_date))
             $end_date = $current_date;
-        $search_by_filter = BillInfo::whereDate('created_at', '>=', $start_date)
+        $search_by_filters = BillInfo::whereDate('created_at', '>=', $start_date)
             ->whereDate('created_at', '<=', $end_date)
-            ->get();
-        return $search_by_filter;
+            ->paginate(10);
+//            ->get();
+        $date_wise_delivered = BillInfo::whereDate('created_at', '>=', $start_date)
+            ->whereDate('created_at', '<=', $end_date)
+            ->where('status', '=', 'delivered')
+            ->count();
+        $date_wise_not_delivered =  BillInfo::whereDate('created_at', '>=', $start_date)
+            ->whereDate('created_at', '<=', $end_date)
+            ->where('status', '=', 'cancelled')
+            ->count();
+        return view('dateFilterSearch', compact('search_by_filters', 'date_wise_delivered', 'date_wise_not_delivered'));
     }
     // search by bill number
-    public function billSearchById(Request $request)
-    {
-        $bill_number = $request->id;
-        $bill_serach_by_id = BillInfo::where('bill_number', '=', $bill_number )
-            ->get();
-        return $bill_serach_by_id;
-    }
+//    public function billSearchById(Request $request)
+//    {
+//        $bill_number = $request->id;
+//        $bill_serach_by_id = BillInfo::where('bill_number', '=', $bill_number )
+//            ->get();
+//        return view('dashboard');
+//    }
     // search by bill-types
     public function searchByBillTypes(Request $request)
     {

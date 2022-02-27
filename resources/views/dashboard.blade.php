@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dak Bili</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    {{--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">--}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    {{--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>--}}
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
-    <!------ Include the above in your HEAD tag ---------->
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-</head>
-<body>
-<div class="container mt-4">
-    <h3 class="text-center mb-3">Total Count of Bills</h3>
+@extends('master')
+@section('content')
+<div class="container">
+    <h3 class="text-center my-3">Total Count of Bills</h3>
     <div class="row">
         <div class="col-md-6">
             <div class="card-counter primary">
@@ -43,41 +20,111 @@
         </div>
     </div>
 </div>
+<form action="{{route('dashboard')}}" method="get" class="mt-3">
+    @csrf
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="main">
+                    <div class="form-group has-search">
+                        <span class="fa fa-search form-control-feedback"></span>
+                        <input type="text" name="id" class="form-control" placeholder="Bill Number">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
 <!---Table List start--->
 <h3 class="text-center my-4">Bills Category</h3>
 <div class="text-center" role="group" aria-label="Basic example">
-    <a href="" type="button" class="btn btn-primary">Registry</a>
-    <a href="{{ route('list-gep') }}" type="button" class="btn btn-primary">GEP</a>
-    <a href="" type="button" class="btn btn-primary">Parcel</a>
-    <a href="" type="button" class="btn btn-primary">Telephone Bill</a>
-    <a href="" type="button" class="btn btn-primary">Wasa Bill</a>
+    <button type="button" class="btn btn-primary">
+        <a href="{{route('registry')}}">Registry</a>
+    </button>
+    <button type="button" class="btn btn-primary" >
+        <a href="{{route('gep')}}">GEP</a>
+    </button>
+    <button  type="button" class="btn btn-primary" >
+        <a href="{{route('parcel')}}">Parcel</a>
+    </button>
+    <button  type="button" class="btn btn-primary">
+        <a href="{{route('tele-bill')}}">Telephone Bill</a>
+    </button>
+    <button  type="button" class="btn btn-primary" >
+        <a href="{{route('wasa-bill')}}">Wasa Bill</a>
+    </button>
 </div>
+{{--    table generate--}}
+<div class="m-4">
+    <table class="table table-bordered text-center">
+        <thead>
+        <tr>
+            <th scope="col">Bill Number</th>
+            <th scope="col">Bill Types</th>
+            <th scope="col">Agent Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Issue Offices</th>
+            <th scope="col" class="text-center">Bill Images</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach( $bill_serach_by_id as  $id)
+            <tr>
+                <td >{{$id->bill_number}}</td>
+                <td >{{$id->bill_types}}</td>
+                <td>{{$id->agent_name}}</td>
+                <td>{{$id->status}}</td>
+                <td>{{$id->issue_office}}</td>
+                <td>
+                    <div class="container">
 
-{{--<div class="m-4">--}}
-{{--    <table class="table table-bordered">--}}
-{{--        <thead>--}}
-{{--        <tr>--}}
-{{--            <th scope="col">Bill ID</th>--}}
-{{--            <th scope="col">Telephone Number</th>--}}
-{{--            <th scope="col">Postman Name</th>--}}
-{{--            <th scope="col">Status</th>--}}
-{{--            <th scope="col">Action</th>--}}
-{{--        </tr>--}}
-{{--        </thead>--}}
-{{--        <tbody>--}}
-{{--        @foreach( $bill_lists as  $bill_list)--}}
-{{--            <tr>--}}
-{{--                <td>{{$bill_list->id}}</td>--}}
-{{--                <td>{{$bill_list->phone_number}}</td>--}}
-{{--                <td>{{$bill_list->agent_name}}</td>--}}
-{{--                <td>{{$bill_list->status}}</td>--}}
-{{--                <td>--}}
-{{--                    <a class="btn btn-primary" href="{{route('bill-details', $bill_list->id)}}" role="button">View</a>--}}
-{{--                </td>--}}
-{{--            </tr>--}}
-{{--        @endforeach--}}
-{{--        </tbody>--}}
-{{--    </table>--}}
+                        <div class="modal fade" id="image-modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="justify-content: end">
+                                        <button onclick="onCancel()" type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img class="img-responsive center-block" src="" alt="" width="90%" height="80%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="#" class="thumbnail">
+                                <img src="https://barikoipost.tk/{{$id->bill_images}}" alt="..." width="200px" height="150px">
+                            </a>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 </div>
-</body>
-</html>
+<script>
+    function onCancel() {
+        $("#image-modal").modal('hide')
+    }
+
+    $(function() {
+        $('a.thumbnail').click(function(e) {
+            e.preventDefault();
+            $('#image-modal .modal-body img').attr('src', $(this).find('img').attr('src'));
+            $("#image-modal").modal('show');
+        });
+
+        $('#image-modal .modal-body img').on('click', function() {
+            $("#image-modal").modal('hide')
+        });
+    });
+    // function hello(bill_type) {
+    //     console.log('hello....', bill_type);
+    // }
+
+</script>
+@endsection

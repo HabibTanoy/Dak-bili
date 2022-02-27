@@ -23,7 +23,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
 </head>
 <body>
-    <h2 class="text-center my-3">Bills Details</h2>
-    <img class="rounded mx-auto d-block" src="{{URL::asset($bill_details->bill_images)}}" alt="" width="30%" height="250px">
+@include('includes.header')
+@yield('content')
 </body>
+@stack('scripts')
+
 </html>

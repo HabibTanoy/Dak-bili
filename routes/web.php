@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::get('/', 'App\Http\Controllers\BillController@viewBillList');
-//Route::get('/bill-details/{id}', 'App\Http\Controllers\BillController@perBillDetails')->name('bill-details');
-Route::get('/gep-list', 'App\Http\Controllers\BillController@viewGep')->name('list-gep');
+Route::get('/', 'App\Http\Controllers\BillController@viewBillList')->name('dashboard');
+Route::get('/bill-search', 'App\Http\Controllers\BillDetailsController@billDateFilter')->name('date-filter');
+Route::get('/bill-id', 'App\Http\Controllers\BillDetailsController@billSearchById')->name('bill-search');
+Route::get('/registry', 'App\Http\Controllers\BillController@registry')->name('registry');
+Route::get('/gep', 'App\Http\Controllers\BillController@gep')->name('gep');
+Route::get('/parcel', 'App\Http\Controllers\BillController@parcel')->name('parcel');
+Route::get('/phone-bill', 'App\Http\Controllers\BillController@phoneBill')->name('tele-bill');
+Route::get('/wasa-bill', 'App\Http\Controllers\BillController@wasaBill')->name('wasa-bill');
