@@ -97,6 +97,7 @@ a:hover {
             <th scope="col">Status</th>
             <th scope="col">Issue Offices</th>
             <th scope="col" class="text-center">Bill Images</th>
+            <th scope="col" class="text-center">signature Images</th>
         </tr>
         </thead>
         <tbody>
@@ -109,7 +110,6 @@ a:hover {
                 <td>{{$id->issue_office}}</td>
                 <td>
                     <div class="container">
-
                         <div class="modal fade" id="image-modal" tabindex="-1" role="dialog">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -125,6 +125,28 @@ a:hover {
                         <div>
                             <a href="#" class="thumbnail">
                                 <img src="https://barikoipost.tk/{{$id->bill_images}}" alt="..." width="200px" height="150px">
+                            </a>
+                        </div>
+
+                    </div>
+                </td>
+                <td>
+                    <div class="container">
+                        <div class="modal fade" id="image-modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="justify-content: end">
+                                        <button onclick="onCancel()" type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img class="img-responsive center-block" src="" alt="" width="90%" height="80%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <a href="#" class="thumbnail">
+                                <img src="https://barikoipost.tk/{{$id->signature_images}}" alt="..." width="200px" height="150px">
                             </a>
                         </div>
 
