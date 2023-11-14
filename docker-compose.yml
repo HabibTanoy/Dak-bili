@@ -1,0 +1,61 @@
+version: "3.7"
+networks:
+    dakbilli:
+        driver: bridge
+volumes:
+    pgdatadakbilli:
+        driver: local
+    fpm:
+        driver: local
+services:
+    nginx:
+        image: nginx:alpine
+        container_name: dakbilli-nginx
+        restart: unless-stopped
+        ports:
+            - 8010:80
+        volumes:
+            - .:/var/www/html
+            - ./docker/default.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - dakbilli
+        links:
+            - fpm
+    fpm:
+        container_name: dakbilli
+        networks:
+            - dakbilli
+        volumes:
+            - .:/var/www/html
+        user: root
+        build:
+            context: .
+            dockerfile: ./docker/Dockerfile
+        links:
+            - pgdatadakbilli
+            - redis
+
+    pgdatadakbilli:
+        image: postgis/postgis:13-3.3
+        container_name: pgdatadakbilli
+        volumes:
+            - ./data/pgsql:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: dakbilli_user
+            POSTGRES_PASSWORD: dakbilli_password
+            POSTGRES_DB: dakbilli_db
+        ports:
+            - 4328:5432
+        networks:
+            - dakbilli
+    redis:
+        networks:
+            - dakbilli
+        image: redis:latest
+        container_name: dakbilli-redis
+        ports:
+            - "6007:6379"
+        volumes:
+            - ./data/redis:/data
+
+        
