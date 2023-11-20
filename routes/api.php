@@ -3,7 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
+Route::post('login',[AuthController::class,'login'])->name('login'); // Login from dashboard
+Route::post('register',[AuthController::class,'register']); // register new user
+Route::post('logout', [AuthController::class,'logout']);
+Route::post('refresh', [AuthController::class,'logout']); // refresh token
+Route::get('auth/user', [AuthController::class,'me']);
+Route::post('change-password',[AuthController::class,'changePassword']); //change password
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
