@@ -7,6 +7,7 @@ use App\Http\Requests\SavePostOfficeRequest;
 use App\Models\PostOffice;
 use App\Models\PostOfficeImage;
 use App\Services\FileUpload;
+use App\Services\ReverseGeo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -36,6 +37,7 @@ class PostOfficeController extends Controller
     public function savePostOffice(SavePostOfficeRequest $request){
         DB::beginTransaction();
         try {
+            $geocodedAddress = (new ReverseGeo())->setLatitude($request->latitude)->setLongitude($request->longitude)->get();
             $user=JWTAuth::user();
             $post_office=new PostOffice();
             $post_office->name=$request->name;
@@ -46,6 +48,10 @@ class PostOfficeController extends Controller
             $post_office->latitude=$request->latitude;
             $post_office->longitude=$request->longitude;
             $post_office->created_by=$user->id;
+            $post_office->district=$geocodedAddress['place']['district'] ?? null;
+            $post_office->division=$geocodedAddress['place']['division'] ?? null;
+            $post_office->sub_district=$geocodedAddress['place']['sub_district'] ?? null;
+            $post_office->address=$geocodedAddress['place']['address'] ?? null;
             $post_office->save();
             if(isset($request->images) && count($request->images)>0){
                 foreach($request->images as $image){
