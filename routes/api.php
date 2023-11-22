@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\AuthController;
+use App\Http\Controllers\V1\PostOfficeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,8 @@ Route::post('logout', [AuthController::class,'logout']);
 Route::post('refresh', [AuthController::class,'logout']); // refresh token
 Route::get('auth/user', [AuthController::class,'me']);
 Route::post('change-password',[AuthController::class,'changePassword']); //change password
+Route::post('save_post_office',[PostOfficeController::class,'savePostOffice']);//save post office
+Route::get('get-post-office',[PostOfficeController::class,'getPostOffice']); // get post office
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
